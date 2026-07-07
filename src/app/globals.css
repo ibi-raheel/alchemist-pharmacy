@@ -1,26 +1,185 @@
 @import "tailwindcss";
 
+/* ============================================================
+   Alchemist Pharmacy — Design tokens
+   "Calm clinical": white base, medical green primary,
+   calm blue secondary, charcoal ink. Color as accent only.
+   ============================================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Surfaces */
+  --bg: #fbfdfc;          /* page background — barely-there green-white */
+  --surface: #ffffff;     /* cards, header */
+  --surface-2: #f2f7f5;   /* subtle tinted panels */
+
+  /* Ink (never pure black) */
+  --ink: #12241f;         /* headings */
+  --ink-body: #35433e;    /* body text */
+  --ink-muted: #64756f;   /* captions, meta */
+
+  /* Brand — medical green */
+  --brand-50: #e7f5f0;
+  --brand-100: #cdece2;
+  --brand-500: #12a58a;
+  --brand-600: #0e9079;   /* primary */
+  --brand-700: #0a6f5d;   /* hover / deep */
+  --brand-900: #0c3d34;
+
+  /* Secondary — calm blue (links, info) */
+  --blue-50: #eaf3fb;
+  --blue-500: #2f81c4;
+  --blue-600: #256aa5;
+
+  /* WhatsApp brand */
+  --wa: #25d366;
+  --wa-dark: #128c7e;
+
+  /* Lines & shadows */
+  --line: #e4ece9;
+  --line-strong: #d3ded9;
+  --shadow-sm: 0 1px 2px rgba(12, 61, 52, 0.04), 0 1px 3px rgba(12, 61, 52, 0.06);
+  --shadow-md: 0 6px 24px -8px rgba(12, 61, 52, 0.12);
+  --shadow-lg: 0 24px 60px -20px rgba(12, 61, 52, 0.20);
+
+  /* Rhythm */
+  --radius: 14px;
+  --radius-lg: 22px;
+  --maxw: 1180px;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-body: var(--ink-body);
+  --color-ink-muted: var(--ink-muted);
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-900: var(--brand-900);
+  --color-blue-50: var(--blue-50);
+  --color-blue-500: var(--blue-500);
+  --color-blue-600: var(--blue-600);
+  --color-wa: var(--wa);
+  --color-line: var(--line);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display), var(--font-inter), ui-sans-serif, sans-serif;
+
+  --radius-brand: var(--radius);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ---------- Base ---------- */
+* {
+  border-color: var(--line);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink-body);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv02", "cv03", "cv04", "ss01";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+p { text-wrap: pretty; }
+
+::selection {
+  background: var(--brand-100);
+  color: var(--brand-900);
+}
+
+:focus-visible {
+  outline: 2px solid var(--brand-600);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ---------- Layout helpers ---------- */
+.container-x {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 768px) {
+  .container-x { padding-inline: 2rem; }
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brand-700);
+}
+
+/* Fine grid texture — replaces generic gradient blobs */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(14, 144, 121, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(14, 144, 121, 0.05) 1px, transparent 1px);
+  background-size: 34px 34px;
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 40%, transparent 100%);
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 40%, transparent 100%);
+}
+
+/* ---------- Motion: felt, not watched ---------- */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes wa-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.45); }
+  70%  { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+/* Scroll reveal: hidden until in view, then rises in */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.animate-float { animation: float-soft 6s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1 !important; transform: none !important; transition: none; }
+  .animate-float, .wa-pulse { animation: none !important; }
+  * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
 }
