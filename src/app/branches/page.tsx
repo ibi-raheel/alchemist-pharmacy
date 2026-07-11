@@ -3,6 +3,7 @@ import { PageHero } from "@/components/PageHero";
 import { Container, Reveal, Button } from "@/components/ui";
 import { BranchMap } from "@/components/BranchMap";
 import { CtaBand } from "@/components/CtaBand";
+import { StructuredData } from "@/components/StructuredData";
 import { PinIcon, ClockIcon, ArrowIcon, WhatsAppIcon } from "@/components/icons";
 import { branches, mapsLink, waLink } from "@/lib/site";
 
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
 export default function BranchesPage() {
   return (
     <>
+      <StructuredData />
       <PageHero
         eyebrow="Find us"
         title="Five branches across Lahore"

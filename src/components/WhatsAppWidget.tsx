@@ -29,7 +29,7 @@ export function WhatsAppWidget({
   const link = waLink(message);
 
   return (
-    <div className="fixed bottom-5 right-5 z-[60] flex flex-col items-end gap-3 sm:bottom-7 sm:right-7">
+    <div className="fixed bottom-5 right-5 z-[60] hidden flex-col items-end gap-3 sm:bottom-7 sm:right-7 md:flex">
       {/* Chat panel */}
       {open && (
         <div

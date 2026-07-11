@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhatsAppWidget } from "@/components/WhatsAppWidget";
+import { MobileCtaBar } from "@/components/MobileCtaBar";
 import { site } from "@/lib/site";
 
 const inter = Inter({
@@ -40,7 +41,17 @@ export const metadata: Metadata = {
       "Send your prescription on WhatsApp. Delivered in 30 minutes across Lahore.",
     url: "https://alchemistpharmacy.com",
     siteName: "Alchemist Pharmacy",
+    locale: "en_PK",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Alchemist Pharmacy — 30-Minute Medicine Delivery",
+    description:
+      "Send your prescription on WhatsApp. Delivered in 30 minutes across Lahore.",
+  },
+  alternates: {
+    canonical: "https://alchemistpharmacy.com",
   },
 };
 
@@ -52,7 +63,7 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${display.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-bg text-ink-body">
+      <body className="min-h-full flex flex-col bg-bg text-ink-body pb-[76px] md:pb-0">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
@@ -60,6 +71,7 @@ export default function RootLayout({
           phone={site.whatsapp}
           message={site.whatsappPrefill}
         />
+        <MobileCtaBar />
       </body>
     </html>
   );

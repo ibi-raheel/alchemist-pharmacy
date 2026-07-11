@@ -85,6 +85,48 @@ export const stats = [
   { value: "10", suffix: "yrs", label: "Serving the community" },
 ];
 
+/**
+ * Lahore localities we deliver to, each mapped to the nearest branch slug.
+ * Used by the delivery-area checker. Extend this list freely.
+ */
+export const deliveryAreas: { name: string; branch: string }[] = [
+  { name: "Johar Town", branch: "johar-town-1" },
+  { name: "Wapda Town", branch: "johar-town-1" },
+  { name: "Faisal Town", branch: "johar-town-1" },
+  { name: "Township", branch: "johar-town-2" },
+  { name: "Model Town", branch: "johar-town-2" },
+  { name: "Garden Town", branch: "johar-town-2" },
+  { name: "Kalma Chowk", branch: "johar-town-2" },
+  { name: "Thokar Niaz Baig", branch: "thokar-niaz-baig" },
+  { name: "Canal Bank", branch: "thokar-niaz-baig" },
+  { name: "Valencia", branch: "thokar-niaz-baig" },
+  { name: "Bahria Town", branch: "thokar-niaz-baig" },
+  { name: "Adda Plot", branch: "thokar-niaz-baig" },
+  { name: "Allama Iqbal Town", branch: "allama-iqbal-town" },
+  { name: "Iqbal Town", branch: "allama-iqbal-town" },
+  { name: "Dubai Chowk", branch: "allama-iqbal-town" },
+  { name: "Sabzazar", branch: "allama-iqbal-town" },
+  { name: "Samanabad", branch: "allama-iqbal-town" },
+  { name: "Multan Road", branch: "allama-iqbal-town" },
+  { name: "G.T. Road", branch: "gt-road" },
+  { name: "GT Road", branch: "gt-road" },
+  { name: "Pakistan Mint", branch: "gt-road" },
+  { name: "Baghbanpura", branch: "gt-road" },
+  { name: "Shalimar", branch: "gt-road" },
+];
+
+/** Match a typed area to the nearest branch (fuzzy contains match). */
+export function findDeliveryArea(query: string): { name: string; branch: Branch } | null {
+  const q = query.trim().toLowerCase();
+  if (q.length < 2) return null;
+  const hit = deliveryAreas.find(
+    (a) => a.name.toLowerCase().includes(q) || q.includes(a.name.toLowerCase()),
+  );
+  if (!hit) return null;
+  const branch = branches.find((b) => b.slug === hit.branch);
+  return branch ? { name: hit.name, branch } : null;
+}
+
 export const nav = [
   { href: "/", label: "Home" },
   { href: "/branches", label: "Branches" },

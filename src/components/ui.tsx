@@ -77,6 +77,13 @@ export function Reveal({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
+    // If IntersectionObserver isn't available, reveal immediately.
+    if (typeof IntersectionObserver === "undefined") {
+      setVisible(true);
+      return;
+    }
+
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -87,7 +94,15 @@ export function Reveal({
       { threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
     );
     io.observe(el);
-    return () => io.disconnect();
+
+    // Safety net: never leave content stuck invisible if the observer
+    // doesn't fire (e.g. a background/suspended tab).
+    const fallback = setTimeout(() => setVisible(true), 2500);
+
+    return () => {
+      io.disconnect();
+      clearTimeout(fallback);
+    };
   }, []);
 
   const Component = Tag as React.ElementType;
